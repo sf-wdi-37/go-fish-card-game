@@ -26,6 +26,14 @@ rspec spec/2_card_deck_spec.rb -e "shuffle"
 
 ## Building the Game
 
+If you're not familiar with the game "Go Fish," take a few minutes to look it up. You can't build something you without understanding it at least a little first!
+
+We'll be building code that will help simulate one round of Go Fish between two players. That is:
+
+- the first player will ask the second player whether the second player has any of a certain kind of card (like "threes" or "kings") in their hand
+- if the the second player has cards that match that description, the first player will take them and add them to their hand
+- if the second player didn't have any matching cards, the second player will say "Go Fish!", and the first player will draw a card from the deck
+
 Take a look inside `go_fish.rb` and you'll see some boilerplate code for our classes.
 
 #### Class Interfaces
@@ -49,16 +57,20 @@ Together, these classes and methods will allow us to simulate game play, using t
 ```
 # GAME SETUP
 
+puts 'creating a deck'
 deck = CardDeck.new
 deck.shuffle
 
+puts 'drawing some cards'
 card = deck.draw_one
 two_cards = deck.draw(2)
 
+puts 'creating hand 1 and player 1'
 cards1 = deck.draw(5)
 h1 = HandOfCards.new(cards1)
 p1 = CardPlayer.new(hand: h1)
 
+puts 'creating hand 2 and player 2'
 cards2 = deck.draw(5)
 h2 = HandOfCards.new(cards2)
 p2 = CardPlayer.new(hand: h2 )
@@ -66,9 +78,12 @@ p2 = CardPlayer.new(hand: h2 )
 
 # GAME PLAY
 
+puts 'starting round'
 wanted_rank = "3"
 puts "p1, do you have any... #{wanted_rank}'s?"
+puts 'checking player 1 hand'
 if p1.hand.any?(rank: wanted_rank)
+    puts 'found card!'
     cards = p1.hand.take!(rank: wanted_rank)
     p2.hand.push(*cards)
 else
@@ -80,7 +95,7 @@ end
 ```
 
 #### Playing Cards
-Your first goal will be to build your `PlayingCard` objects. Here's some raw data for you to copy paste (no jokers!):
+Your first goal will be to build your `PlayingCard` objects. Here's some raw data that you might use later:
 
 ```ruby
 RANKS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
@@ -94,7 +109,7 @@ SORTED_CARDS = [
 ]
 ```
 
-**Follow the tests to get started!**
+**Run and read the tests for `PlayingCard` to get started!**
 
 ## Tips
 It's easy to get lost in test output / lose sight of the "big picture". Make sure you understand what your goal is before you dive in!
