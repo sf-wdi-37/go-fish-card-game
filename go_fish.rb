@@ -1,9 +1,40 @@
 class PlayingCard
+  attr_reader :rank, :suit
+
   # initialize
+  def initialize options
+    # options is a hash
+    @rank = options[:rank]
+    @suit = options[:suit]
+  end
+
+  # returns the face value (string) as a
+  # combination of rank and suit
+  def face
+    @rank + @suit
+  end
+
+  # returns the face value of the card (string)
+  def to_s
+    p face
+    p self.face # self is this instance, when inside instance method
+  end
+
+  def self.celebrate # class method, call PlayingCard.celebrate
+    p 'YAY'
+  end
+
 end
 
 class CardDeck
+  attr_accessor :cards
   # initialize
+  def initialize shufflebool=true
+    if shufflebool
+      # cards should be shuffled
+      @cards.shuffle!
+    end
+  end
 end
 
 class HandOfCards
@@ -18,6 +49,9 @@ end
 # Driver Code
 if __FILE__ == $0
   puts "This will only print if you run `ruby go_fish.rb`"
+  p PlayingCard.celebrate
+  # card = PlayingCard.new(rank: 'K', suit:'H')
+  # puts card.to_s
   # deck = CardDeck.new
   # # # puts "cards: #{deck.cards}"
   # # # puts "cards: #{deck}"
